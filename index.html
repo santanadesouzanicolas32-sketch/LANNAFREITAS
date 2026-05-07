@@ -66,11 +66,10 @@
 
     .envelope-wrapper img {
       display: block;
-      /* altura domina; largura segue a proporção natural */
-      max-height: min(88vh, 700px);
-      max-width:  min(88vw, 440px);
-      width: auto; height: auto;
-      border-radius: 10px;
+      width: 100vw;
+      height: 100vh;
+      object-fit: contain;
+      border-radius: 0;
     }
 
     /* ── selo clicável (overlay transparente sobre o selo da imagem) ── */
@@ -160,22 +159,61 @@
       100%{ opacity: 1; transform: scale(1) translateY(0); }
     }
 
+    #screen-invite {
+      flex-direction: column;
+      gap: 14px;
+    }
+
     .invite-wrapper {
       position: relative;
       display: inline-block;
-      cursor: pointer;
       filter: drop-shadow(0 18px 48px rgba(74,26,122,.42));
     }
     .invite-wrapper img {
       display: block;
-      max-height: min(92vh, 740px);
-      max-width:  min(88vw, 420px);
-      width: auto; height: auto;
-      border-radius: 10px;
+      width: 100vw;
+      height: calc(100vh - 70px);
+      object-fit: contain;
+      border-radius: 0;
       transition: filter .25s;
     }
     .invite-wrapper:hover img {
       filter: brightness(1.04);
+    }
+
+    /* ── botões abaixo do convite ── */
+    .invite-btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .invite-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: .55em 1.3em;
+      border-radius: 999px;
+      font-family: 'Georgia', serif;
+      font-size: clamp(12px, 1.8vw, 15px);
+      font-weight: bold;
+      letter-spacing: .5px;
+      text-decoration: none;
+      border: 2px solid transparent;
+      transition: transform .2s, box-shadow .2s;
+      cursor: pointer;
+    }
+    .invite-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(74,26,122,.3); }
+
+    .btn-maps {
+      background: var(--ouro);
+      color: #fff;
+      border-color: var(--ouro-claro);
+    }
+    .btn-whatsapp {
+      background: #25D366;
+      color: #fff;
+      border-color: #1ebe5d;
     }
   </style>
 </head>
@@ -196,6 +234,18 @@
 <div class="screen hidden" id="screen-invite">
   <div class="invite-wrapper">
     <img src="https://res.cloudinary.com/dhbzgqy3m/image/upload/f_auto,q_auto/niver_mmmx1o" alt="Convite 15 anos Lanna Freitas" draggable="false" />
+  </div>
+  <div class="invite-btns">
+    <a class="invite-btn btn-maps"
+       href="https://www.google.com/maps/search/?api=1&query=R.+Jos%C3%A9+Francisco+dos+Santos%2C+192+-+Jardim+Helena%2C+Tabo%C3%A3o+da+Serra+-+SP"
+       target="_blank" rel="noopener">
+      📍 Ver no Google Maps
+    </a>
+    <a class="invite-btn btn-whatsapp"
+       href="https://wa.me/5511997294845?text=Ol%C3%A1%20Lanna%2C%20vim%20confirmar%20minha%20presen%C3%A7a!%20%F0%9F%8E%89"
+       target="_blank" rel="noopener">
+      ✅ Confirmar Presença
+    </a>
   </div>
 </div>
 
@@ -259,14 +309,6 @@
   document.getElementById('sealHit').addEventListener('click', openEnvelope);
   envelopeWrapper.addEventListener('click', openEnvelope);
 
-  /* clique em qualquer lugar do convite → Google Maps */
-  const address = 'R. José Francisco dos Santos, 192 - Jardim Helena, Taboão da Serra - SP';
-  document.querySelector('.invite-wrapper').addEventListener('click', () => {
-    window.open(
-      'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(address),
-      '_blank'
-    );
-  });
 </script>
 </body>
 </html>
