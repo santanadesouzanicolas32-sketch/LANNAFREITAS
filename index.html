@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Convite – Lanna Freitas 15 Anos</title>
+  <style>
+    :root {
+      --roxo-escuro: #4A1A7A;
+      --roxo-medio:  #7B3FAF;
+      --roxo-claro:  #C39BD3;
+      --ouro:        #C9A227;
+      --ouro-claro:  #EDD56A;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background: linear-gradient(145deg, #f5eaff 0%, #e8d0f7 45%, #f0e6fa 100%);
+      font-family: 'Georgia', serif;
+    }
+
+    /* ── partículas de fundo ── */
+    #particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    .p {
+      position: absolute; border-radius: 50%;
+      background: var(--ouro-claro); opacity: 0;
+      animation: floatUp linear infinite;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(0) scale(.5); opacity: 0; }
+      20%  { opacity: .6; }
+      80%  { opacity: .35; }
+      100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+    }
+
+    /* ── telas ── */
+    .screen {
+      position: fixed; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 10;
+      transition: opacity .5s ease;
+    }
+    .screen.hidden { opacity: 0; pointer-events: none; }
+
+    /* ══════════════ TELA 1 – ENVELOPE ══════════════ */
+
+    /*
+      Estratégia de proporção:
+      A imagem é retrato (~9:16). Limitamos pela ALTURA (vh) para que caiba em
+      qualquer tela – celular em pé, paisagem, tablet e desktop.
+      max-width evita crescer demais em monitores largos.
+    */
+    .envelope-wrapper {
+      position: relative;
+      display: inline-block;          /* encolhe ao tamanho exato da imagem */
+      cursor: pointer;
+      filter: drop-shadow(0 16px 40px rgba(74,26,122,.38));
+      transition: filter .3s;
+    }
+    .envelope-wrapper:hover {
+      filter: drop-shadow(0 20px 52px rgba(74,26,122,.55));
+    }
+
+    .envelope-wrapper img {
+      display: block;
+      /* altura domina; largura segue a proporção natural */
+      max-height: min(88vh, 700px);
+      max-width:  min(88vw, 440px);
+      width: auto; height: auto;
+      border-radius: 10px;
+    }
+
+    /* ── selo clicável (overlay transparente sobre o selo da imagem) ── */
+    .seal-hit {
+      position: absolute;
+      /* selo centralizado ~50% H, ~60% V na imagem */
+      left: 50%;
+      top: 60%;
+      width: 20%; padding-bottom: 20%;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      transition: box-shadow .3s;
+    }
+    .seal-hit:hover {
+      box-shadow: 0 0 26px 10px rgba(201,162,39,.6);
+    }
+
+    /* ── mensagem "Clique no Selo" – overlay DENTRO da imagem, abaixo do selo ── */
+    .hint {
+      position: absolute;
+      /* posicionada logo abaixo do selo, ainda sobre o envelope */
+      top: 72%;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+
+      color: var(--roxo-escuro);
+      font-size: clamp(11px, 1.6vw, 15px);
+      font-style: italic;
+      letter-spacing: 1.4px;
+      text-align: center;
+
+      /* pílula semitransparente para legibilidade */
+      background: rgba(255,255,255,.55);
+      backdrop-filter: blur(4px);
+      padding: .3em .9em;
+      border-radius: 999px;
+      border: 1px solid rgba(201,162,39,.4);
+
+      animation: pulseText 2.3s ease-in-out infinite;
+      pointer-events: none;           /* não bloqueia o clique na imagem */
+    }
+    @keyframes pulseText {
+      0%,100% { opacity: 1;  transform: translateX(-50%) scale(1); }
+      50%     { opacity: .45; transform: translateX(-50%) scale(.96); }
+    }
+
+    /* ── animação de abertura ── */
+    @keyframes sealSpin {
+      0%   { transform: translateY(-50%) scale(1)   rotate(0deg); }
+      30%  { transform: translateY(-50%) scale(1.3) rotate(180deg);
+             box-shadow: 0 0 44px 16px rgba(201,162,39,.85); }
+      60%  { transform: translateY(-50%) scale(.85) rotate(300deg); }
+      100% { transform: translateY(-50%) scale(0)   rotate(360deg); opacity: 0; }
+    }
+    @keyframes envelopeBurst {
+      0%   { transform: scale(1)    rotate(0deg);  opacity: 1; }
+      25%  { transform: scale(1.07) rotate(-3deg); }
+      50%  { transform: scale(1.13) rotate(3deg);  }
+      75%  { transform: scale(.65)  rotate(-2deg); opacity: .5; }
+      100% { transform: scale(0)    rotate(5deg);  opacity: 0; }
+    }
+    .opening .seal-hit { animation: sealSpin     .9s cubic-bezier(.6,0,.4,1) forwards; }
+    .opening           { animation: envelopeBurst 1.3s .15s cubic-bezier(.6,0,.4,1) forwards; }
+
+    /* ── burst de partículas ── */
+    .burst-particle {
+      position: fixed; width: 10px; height: 10px;
+      border-radius: 50%; pointer-events: none; z-index: 100;
+      animation: burstOut .9s ease-out forwards;
+    }
+    @keyframes burstOut {
+      0%   { transform: translate(0,0) scale(1); opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+    }
+
+    /* ══════════════ TELA 2 – CONVITE ══════════════ */
+    #screen-invite { opacity: 0; pointer-events: none; }
+    #screen-invite.show {
+      opacity: 1; pointer-events: all;
+      animation: revealInvite .9s cubic-bezier(.2,.8,.3,1) forwards;
+    }
+    @keyframes revealInvite {
+      0%  { opacity: 0; transform: scale(.7) translateY(28px); }
+      60% { transform: scale(1.03) translateY(-4px); }
+      100%{ opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .invite-wrapper {
+      position: relative;
+      display: inline-block;
+      filter: drop-shadow(0 18px 48px rgba(74,26,122,.42));
+    }
+    .invite-wrapper img {
+      display: block;
+      max-height: min(92vh, 740px);
+      max-width:  min(88vw, 420px);
+      width: auto; height: auto;
+      border-radius: 10px;
+    }
+
+    /* convite inteiro clicável */
+    .invite-wrapper {
+      cursor: pointer;
+    }
+    .invite-wrapper:hover img {
+      filter: brightness(1.04);
+    }
+  </style>
+</head>
+<body>
+
+<div id="particles"></div>
+
+<!-- ══ TELA 1: ENVELOPE ══ -->
+<div class="screen" id="screen-envelope">
+  <div class="envelope-wrapper" id="envelopeWrapper">
+    <img src="envelope.jpeg" alt="Envelope do convite" draggable="false" />
+    <div class="seal-hit" id="sealHit"></div>
+    <p class="hint">✨ Clique no Selo para Abrir ✨</p>
+  </div>
+</div>
+
+<!-- ══ TELA 2: CONVITE ══ -->
+<div class="screen hidden" id="screen-invite">
+  <div class="invite-wrapper">
+    <img src="niver.jpeg" alt="Convite 15 anos Lanna Freitas" draggable="false" />
+  </div>
+</div>
+
+<script>
+  /* partículas de fundo */
+  const pc = document.getElementById('particles');
+  for (let i = 0; i < 28; i++) {
+    const d = document.createElement('div');
+    d.className = 'p';
+    const sz = 3 + Math.random() * 6;
+    d.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${90+Math.random()*20}%;
+      width:${sz}px;height:${sz}px;
+      animation-duration:${5+Math.random()*7}s;
+      animation-delay:${Math.random()*7}s;
+    `;
+    pc.appendChild(d);
+  }
+
+  /* burst de partículas no clique */
+  function spawnBurst(cx, cy) {
+    const colors = ['#C9A227','#EDD56A','#C39BD3','#7B3FAF','#ffffff'];
+    for (let i = 0; i < 26; i++) {
+      const b = document.createElement('div');
+      b.className = 'burst-particle';
+      const angle = (i / 26) * Math.PI * 2;
+      const dist  = 80 + Math.random() * 130;
+      b.style.cssText = `
+        left:${cx}px;top:${cy}px;
+        background:${colors[i % colors.length]};
+        --tx:${Math.cos(angle)*dist}px;
+        --ty:${Math.sin(angle)*dist}px;
+        animation-duration:${.65+Math.random()*.45}s;
+        animation-delay:${Math.random()*.08}s;
+      `;
+      document.body.appendChild(b);
+      setTimeout(() => b.remove(), 1200);
+    }
+  }
+
+  /* abertura do envelope */
+  const envelopeScreen = document.getElementById('screen-envelope');
+  const envelopeWrapper = document.getElementById('envelopeWrapper');
+  const inviteScreen   = document.getElementById('screen-invite');
+  let opened = false;
+
+  function openEnvelope() {
+    if (opened) return;
+    opened = true;
+    const r = envelopeWrapper.getBoundingClientRect();
+    spawnBurst(r.left + r.width * .50, r.top + r.height * .57);
+    envelopeWrapper.classList.add('opening');
+    setTimeout(() => {
+      envelopeScreen.classList.add('hidden');
+      inviteScreen.classList.remove('hidden');
+      requestAnimationFrame(() => inviteScreen.classList.add('show'));
+    }, 1150);
+  }
+
+  document.getElementById('sealHit').addEventListener('click', openEnvelope);
+  envelopeWrapper.addEventListener('click', openEnvelope);
+
+  /* clique em qualquer lugar do convite → Google Maps */
+  const address = 'R. José Francisco dos Santos, 192 - Jardim Helena, Taboão da Serra - SP';
+  document.querySelector('.invite-wrapper').addEventListener('click', () => {
+    window.open(
+      'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(address),
+      '_blank'
+    );
+  });
+</script>
+</body>
+</html>
