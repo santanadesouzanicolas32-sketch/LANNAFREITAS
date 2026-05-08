@@ -2,218 +2,210 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Convite – Lanna Freitas 15 Anos</title>
   <style>
     :root {
-      --roxo-escuro: #4A1A7A;
-      --roxo-medio:  #7B3FAF;
-      --roxo-claro:  #C39BD3;
-      --ouro:        #C9A227;
-      --ouro-claro:  #EDD56A;
+      --roxo: #4A1A7A;
+      --ouro:  #C9A227;
+      --ouro-claro: #EDD56A;
+      --roxo-claro: #C39BD3;
     }
 
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
     html, body {
-      width: 100%; height: 100%;
-      overflow: hidden;
-      background: linear-gradient(145deg, #f5eaff 0%, #e8d0f7 45%, #f0e6fa 100%);
-      font-family: 'Georgia', serif;
+      width:100%; height:100%;
+      overflow:hidden;
+      background:#110622;
+      font-family:'Georgia', serif;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
 
-    /* ── partículas de fundo ── */
-    #particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    /* ── partículas ── */
+    #particles { position:fixed; inset:0; pointer-events:none; z-index:0; }
     .p {
-      position: absolute; border-radius: 50%;
-      background: var(--ouro-claro); opacity: 0;
-      animation: floatUp linear infinite;
+      position:absolute; border-radius:50%;
+      background:var(--ouro-claro); opacity:0;
+      animation:floatUp linear infinite;
     }
     @keyframes floatUp {
-      0%   { transform: translateY(0) scale(.5); opacity: 0; }
-      20%  { opacity: .6; }
-      80%  { opacity: .35; }
-      100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+      0%   { transform:translateY(0) scale(.5); opacity:0; }
+      20%  { opacity:.5; }
+      80%  { opacity:.2; }
+      100% { transform:translateY(-110vh) scale(1.2); opacity:0; }
     }
 
     /* ── telas ── */
     .screen {
-      position: fixed; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      z-index: 10;
-      transition: opacity .5s ease;
+      position:fixed; inset:0;
+      display:flex; align-items:center; justify-content:center;
+      z-index:10;
+      transition:opacity .45s ease;
     }
-    .screen.hidden { opacity: 0; pointer-events: none; }
+    .screen.hidden { opacity:0; pointer-events:none; }
 
-    /* ══════════════ TELA 1 – ENVELOPE ══════════════ */
+    /* ── imagem padrão – mantém proporção original ── */
+    .screen-img {
+      display:block;
+      width:100vw;
+      height:100vh;
+      object-fit:contain;
+      user-select:none;
+      -webkit-user-drag:none;
+    }
 
-    /*
-      Estratégia de proporção:
-      A imagem é retrato (~9:16). Limitamos pela ALTURA (vh) para que caiba em
-      qualquer tela – celular em pé, paisagem, tablet e desktop.
-      max-width evita crescer demais em monitores largos.
-    */
+    /* ════════════════════════════
+       TELA 1 – ENVELOPE
+    ════════════════════════════ */
     .envelope-wrapper {
-      position: relative;
-      display: inline-block;          /* encolhe ao tamanho exato da imagem */
-      cursor: pointer;
-      filter: drop-shadow(0 16px 40px rgba(74,26,122,.38));
-      transition: filter .3s;
+      position:relative;
+      cursor:pointer;
+      filter:drop-shadow(0 14px 36px rgba(74,26,122,.55));
+      transition:filter .3s;
     }
-    .envelope-wrapper:hover {
-      filter: drop-shadow(0 20px 52px rgba(74,26,122,.55));
-    }
-
-    .envelope-wrapper img {
-      display: block;
-      width: 100vw;
-      height: 100vh;
-      object-fit: contain;
-      border-radius: 0;
+    .envelope-wrapper:active {
+      filter:drop-shadow(0 8px 20px rgba(74,26,122,.35));
     }
 
-    /* ── selo clicável (overlay transparente sobre o selo da imagem) ── */
     .seal-hit {
-      position: absolute;
-      /* selo centralizado ~50% H, ~60% V na imagem */
-      left: 50%;
-      top: 60%;
-      width: 20%; padding-bottom: 20%;
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      cursor: pointer;
-      transition: box-shadow .3s;
-    }
-    .seal-hit:hover {
-      box-shadow: 0 0 26px 10px rgba(201,162,39,.6);
+      position:absolute;
+      left:50%; top:60%;
+      width:22%; padding-bottom:22%;
+      border-radius:50%;
+      transform:translate(-50%,-50%);
+      cursor:pointer;
     }
 
-    /* ── mensagem "Clique no Selo" – overlay DENTRO da imagem, abaixo do selo ── */
     .hint {
-      position: absolute;
-      /* posicionada logo abaixo do selo, ainda sobre o envelope */
-      top: 72%;
-      left: 50%;
-      transform: translateX(-50%);
-      white-space: nowrap;
-
-      color: var(--roxo-escuro);
-      font-size: clamp(11px, 1.6vw, 15px);
-      font-style: italic;
-      letter-spacing: 1.4px;
-      text-align: center;
-
-      /* pílula semitransparente para legibilidade */
-      background: rgba(255,255,255,.55);
-      backdrop-filter: blur(4px);
-      padding: .3em .9em;
-      border-radius: 999px;
-      border: 1px solid rgba(201,162,39,.4);
-
-      animation: pulseText 2.3s ease-in-out infinite;
-      pointer-events: none;           /* não bloqueia o clique na imagem */
+      position:absolute;
+      top:74%; left:50%;
+      transform:translateX(-50%);
+      white-space:nowrap;
+      color:#fff;
+      font-size:clamp(11px, 3.8vw, 14px);
+      font-style:italic;
+      letter-spacing:1.2px;
+      background:rgba(74,26,122,.6);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+      padding:.35em 1.1em;
+      border-radius:999px;
+      border:1px solid rgba(201,162,39,.45);
+      animation:pulseText 2.4s ease-in-out infinite;
+      pointer-events:none;
     }
     @keyframes pulseText {
-      0%,100% { opacity: 1;  transform: translateX(-50%) scale(1); }
-      50%     { opacity: .45; transform: translateX(-50%) scale(.96); }
+      0%,100% { opacity:1; }
+      50%     { opacity:.35; }
     }
 
-    /* ── animação de abertura ── */
     @keyframes sealSpin {
-      0%   { transform: translate(-50%,-50%) scale(1)   rotate(0deg); }
-      30%  { transform: translate(-50%,-50%) scale(1.3) rotate(180deg);
-             box-shadow: 0 0 44px 16px rgba(201,162,39,.85); }
-      60%  { transform: translate(-50%,-50%) scale(.85) rotate(300deg); }
-      100% { transform: translate(-50%,-50%) scale(0)   rotate(360deg); opacity: 0; }
+      0%   { transform:translate(-50%,-50%) scale(1)   rotate(0deg); }
+      30%  { transform:translate(-50%,-50%) scale(1.3) rotate(180deg); }
+      60%  { transform:translate(-50%,-50%) scale(.85) rotate(300deg); }
+      100% { transform:translate(-50%,-50%) scale(0)   rotate(360deg); opacity:0; }
     }
     @keyframes envelopeBurst {
-      0%   { transform: scale(1)    rotate(0deg);  opacity: 1; }
-      25%  { transform: scale(1.07) rotate(-3deg); }
-      50%  { transform: scale(1.13) rotate(3deg);  }
-      75%  { transform: scale(.65)  rotate(-2deg); opacity: .5; }
-      100% { transform: scale(0)    rotate(5deg);  opacity: 0; }
+      0%   { transform:scale(1);   opacity:1; }
+      50%  { transform:scale(1.1); }
+      75%  { transform:scale(.6);  opacity:.45; }
+      100% { transform:scale(0);   opacity:0; }
     }
-    .opening .seal-hit { animation: sealSpin     .9s cubic-bezier(.6,0,.4,1) forwards; }
-    .opening           { animation: envelopeBurst 1.3s .15s cubic-bezier(.6,0,.4,1) forwards; }
+    .opening .seal-hit { animation:sealSpin .9s cubic-bezier(.6,0,.4,1) forwards; }
+    .opening           { animation:envelopeBurst 1.3s .15s cubic-bezier(.6,0,.4,1) forwards; }
 
-    /* ── burst de partículas ── */
     .burst-particle {
-      position: fixed; width: 10px; height: 10px;
-      border-radius: 50%; pointer-events: none; z-index: 100;
-      animation: burstOut .9s ease-out forwards;
+      position:fixed; width:9px; height:9px;
+      border-radius:50%; pointer-events:none; z-index:100;
+      animation:burstOut .9s ease-out forwards;
     }
     @keyframes burstOut {
-      0%   { transform: translate(0,0) scale(1); opacity: 1; }
-      100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+      0%   { transform:translate(0,0) scale(1); opacity:1; }
+      100% { transform:translate(var(--tx),var(--ty)) scale(0); opacity:0; }
     }
 
-    /* ══════════════ TELA 2 – CONVITE ══════════════ */
-    #screen-invite { opacity: 0; pointer-events: none; }
-    #screen-invite.show {
-      opacity: 1; pointer-events: all;
-      animation: revealInvite .9s cubic-bezier(.2,.8,.3,1) forwards;
+    /* ════════════════════════════
+       TELAS 2-5 – animações
+    ════════════════════════════ */
+    #screen-invite   { opacity:0; pointer-events:none; }
+    #screen-interagir{ opacity:0; pointer-events:none; }
+    #screen-sugestao { opacity:0; pointer-events:none; }
+    #screen-manual   { opacity:0; pointer-events:none; }
+
+    .screen.show { opacity:1 !important; pointer-events:all !important; }
+    #screen-invite.show   { animation:fadeScale .8s cubic-bezier(.2,.8,.3,1) both; }
+    #screen-interagir.show,
+    #screen-sugestao.show,
+    #screen-manual.show   { animation:fadeSlide .5s ease both; }
+
+    @keyframes fadeScale {
+      0%  { opacity:0; transform:scale(.82); }
+      65% { transform:scale(1.02); }
+      100%{ opacity:1; transform:scale(1); }
     }
-    @keyframes revealInvite {
-      0%  { opacity: 0; transform: scale(.7) translateY(28px); }
-      60% { transform: scale(1.03) translateY(-4px); }
-      100%{ opacity: 1; transform: scale(1) translateY(0); }
+    @keyframes fadeSlide {
+      from { opacity:0; transform:translateX(18px); }
+      to   { opacity:1; transform:translateX(0); }
     }
 
-    #screen-invite {
-      flex-direction: column;
-      gap: 14px;
+    /* ════════════════════════════
+       ZONAS CLICÁVEIS – INTERAGIR
+    ════════════════════════════ */
+    .interagir-zone {
+      position:fixed;
+      cursor:pointer;
+      z-index:30;
+      border-radius:18px;
+      background:transparent;
+      transition:background .15s;
     }
+    .interagir-zone:hover  { background:rgba(195,155,211,.13); }
+    .interagir-zone:active { background:rgba(195,155,211,.28); }
 
-    .invite-wrapper {
-      position: relative;
-      display: inline-block;
-      filter: drop-shadow(0 18px 48px rgba(74,26,122,.42));
+    /* ════════════════════════════
+       BOTÕES DE NAVEGAÇÃO
+    ════════════════════════════ */
+    .nav-btn {
+      position:fixed;
+      z-index:60;
+      display:inline-flex;
+      align-items:center;
+      gap:5px;
+      height:42px;
+      padding:0 18px;
+      border-radius:999px;
+      font-family:'Georgia', serif;
+      font-size:clamp(12px, 3.6vw, 14px);
+      font-weight:bold;
+      letter-spacing:.5px;
+      border:1.5px solid rgba(201,162,39,.65);
+      background:rgba(17,6,34,.78);
+      color:var(--ouro-claro);
+      cursor:pointer;
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+      box-shadow:0 3px 16px rgba(0,0,0,.4);
+      transition:background .2s, transform .15s, box-shadow .2s;
+      /* bottom definido por JS */
+      bottom:16px;
     }
-    .invite-wrapper img {
-      display: block;
-      width: 100vw;
-      height: calc(100vh - 70px);
-      object-fit: contain;
-      border-radius: 0;
-      transition: filter .25s;
-    }
-    .invite-wrapper:hover img {
-      filter: brightness(1.04);
-    }
+    .nav-btn:hover  { background:rgba(17,6,34,.95); box-shadow:0 5px 22px rgba(0,0,0,.5); }
+    .nav-btn:active { transform:scale(.95) !important; }
 
-    /* ── botões abaixo do convite ── */
-    .invite-btns {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
+    .nav-btn.right  { right:16px; }
+    .nav-btn.left   { left:16px; }
+    .nav-btn.center {
+      left:50%; transform:translateX(-50%);
     }
-    .invite-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: .55em 1.3em;
-      border-radius: 999px;
-      font-family: 'Georgia', serif;
-      font-size: clamp(12px, 1.8vw, 15px);
-      font-weight: bold;
-      letter-spacing: .5px;
-      text-decoration: none;
-      border: 2px solid transparent;
-      transition: transform .2s, box-shadow .2s;
-      cursor: pointer;
-    }
-    .invite-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(74,26,122,.3); }
+    .nav-btn.center:hover { transform:translateX(-50%) translateY(-2px); }
+    .nav-btn.right:hover  { transform:translateY(-2px); }
+    .nav-btn.left:hover   { transform:translateY(-2px); }
 
-    .btn-maps {
-      background: var(--ouro);
-      color: #fff;
-      border-color: var(--ouro-claro);
-    }
-    .btn-whatsapp {
-      background: #25D366;
-      color: #fff;
-      border-color: #1ebe5d;
+    /* safe area iOS */
+    @supports(padding-bottom: env(safe-area-inset-bottom)) {
+      .nav-btn { bottom: max(16px, env(safe-area-inset-bottom)); }
     }
   </style>
 </head>
@@ -224,7 +216,9 @@
 <!-- ══ TELA 1: ENVELOPE ══ -->
 <div class="screen" id="screen-envelope">
   <div class="envelope-wrapper" id="envelopeWrapper">
-    <img src="https://res.cloudinary.com/dhbzgqy3m/image/upload/f_auto,q_auto/envelope_tc0rpu" alt="Envelope do convite" draggable="false" />
+    <img class="screen-img"
+         src="https://res.cloudinary.com/dhbzgqy3m/image/upload/f_auto,q_auto/envelope_tc0rpu"
+         alt="Envelope do convite" draggable="false" />
     <div class="seal-hit" id="sealHit"></div>
     <p class="hint">✨ Clique no Selo para Abrir ✨</p>
   </div>
@@ -232,83 +226,186 @@
 
 <!-- ══ TELA 2: CONVITE ══ -->
 <div class="screen hidden" id="screen-invite">
-  <div class="invite-wrapper">
-    <img src="https://res.cloudinary.com/dhbzgqy3m/image/upload/f_auto,q_auto/niver_mmmx1o" alt="Convite 15 anos Lanna Freitas" draggable="false" />
-  </div>
-  <div class="invite-btns">
-    <a class="invite-btn btn-maps"
-       href="https://www.google.com/maps/search/?api=1&query=R.+Jos%C3%A9+Francisco+dos+Santos%2C+192+-+Jardim+Helena%2C+Tabo%C3%A3o+da+Serra+-+SP"
-       target="_blank" rel="noopener">
-      📍 Ver no Google Maps
-    </a>
-    <a class="invite-btn btn-whatsapp"
-       href="https://wa.me/5511997294845?text=Ol%C3%A1%20Lanna%2C%20vim%20confirmar%20minha%20presen%C3%A7a!%20%F0%9F%8E%89"
-       target="_blank" rel="noopener">
-      ✅ Confirmar Presença
-    </a>
-  </div>
+  <img class="screen-img" id="inviteImg"
+       src="https://res.cloudinary.com/dhbzgqy3m/image/upload/f_auto,q_auto/niver_mmmx1o"
+       alt="Convite 15 anos Lanna Freitas" draggable="false" />
+  <button class="nav-btn right" id="btn-invite-next">Próximo ›</button>
+</div>
+
+<!-- ══ TELA 3: INTERAGIR ══ -->
+<div class="screen hidden" id="screen-interagir">
+  <img class="screen-img" id="interagirImg"
+       src="interagir.jpeg" alt="Clique para interagir" draggable="false" />
+  <div class="interagir-zone" id="zone-local"></div>
+  <div class="interagir-zone" id="zone-confirmar"></div>
+  <div class="interagir-zone" id="zone-sugestao-link"></div>
+</div>
+
+<!-- ══ TELA 4: SUGESTÃO DE PRESENTES ══ -->
+<div class="screen hidden" id="screen-sugestao">
+  <img class="screen-img" id="sugestaoImg"
+       src="sugestaodepresente.jpeg" alt="Sugestão de Presentes" draggable="false" />
+  <button class="nav-btn left"  id="btn-sugestao-back">‹ Voltar</button>
+  <button class="nav-btn right" id="btn-sugestao-next">Próximo ›</button>
+</div>
+
+<!-- ══ TELA 5: MANUAL DO CONVIDADO ══ -->
+<div class="screen hidden" id="screen-manual">
+  <img class="screen-img" id="manualImg"
+       src="manual de convidado.jpeg" alt="Manual do Convidado" draggable="false" />
+  <button class="nav-btn left" id="btn-manual-back">‹ Voltar</button>
 </div>
 
 <script>
-  /* partículas de fundo */
+/* ── partículas de fundo ── */
+(function() {
   const pc = document.getElementById('particles');
-  for (let i = 0; i < 28; i++) {
+  for (let i = 0; i < 22; i++) {
     const d = document.createElement('div');
     d.className = 'p';
-    const sz = 3 + Math.random() * 6;
-    d.style.cssText = `
-      left:${Math.random()*100}%;
-      top:${90+Math.random()*20}%;
-      width:${sz}px;height:${sz}px;
-      animation-duration:${5+Math.random()*7}s;
-      animation-delay:${Math.random()*7}s;
-    `;
+    const sz = 3 + Math.random() * 5;
+    d.style.cssText =
+      'left:'+(Math.random()*100)+'%;'
+      +'top:'+(88+Math.random()*18)+'%;'
+      +'width:'+sz+'px;height:'+sz+'px;'
+      +'animation-duration:'+(6+Math.random()*8)+'s;'
+      +'animation-delay:'+(Math.random()*9)+'s;';
     pc.appendChild(d);
   }
+})();
 
-  /* burst de partículas no clique */
-  function spawnBurst(cx, cy) {
-    const colors = ['#C9A227','#EDD56A','#C39BD3','#7B3FAF','#ffffff'];
-    for (let i = 0; i < 26; i++) {
-      const b = document.createElement('div');
-      b.className = 'burst-particle';
-      const angle = (i / 26) * Math.PI * 2;
-      const dist  = 80 + Math.random() * 130;
-      b.style.cssText = `
-        left:${cx}px;top:${cy}px;
-        background:${colors[i % colors.length]};
-        --tx:${Math.cos(angle)*dist}px;
-        --ty:${Math.sin(angle)*dist}px;
-        animation-duration:${.65+Math.random()*.45}s;
-        animation-delay:${Math.random()*.08}s;
-      `;
-      document.body.appendChild(b);
-      setTimeout(() => b.remove(), 1200);
-    }
+/* ── burst de partículas ── */
+function spawnBurst(cx, cy) {
+  var colors = ['#C9A227','#EDD56A','#C39BD3','#7B3FAF','#fff'];
+  for (var i = 0; i < 24; i++) {
+    var b = document.createElement('div');
+    b.className = 'burst-particle';
+    var angle = (i/24)*Math.PI*2, dist = 70+Math.random()*110;
+    b.style.cssText =
+      'left:'+cx+'px;top:'+cy+'px;'
+      +'background:'+colors[i%colors.length]+';'
+      +'--tx:'+(Math.cos(angle)*dist)+'px;'
+      +'--ty:'+(Math.sin(angle)*dist)+'px;'
+      +'animation-duration:'+(0.55+Math.random()*0.4)+'s;';
+    document.body.appendChild(b);
+    setTimeout(function(el){ el.remove(); }, 1100, b);
+  }
+}
+
+/* ── troca de telas ── */
+function goTo(fromId, toId) {
+  var from = document.getElementById(fromId);
+  var to   = document.getElementById(toId);
+  from.classList.add('hidden');
+  from.classList.remove('show');
+  to.classList.remove('hidden');
+  requestAnimationFrame(function() { to.classList.add('show'); });
+}
+
+/* ── posicionar botões no espaço abaixo da imagem (letterbox) ── */
+function setupBtnBottom(imgId) {
+  var img  = document.getElementById(imgId);
+  var args = Array.prototype.slice.call(arguments, 1);
+  var btns = args.map(function(id) { return document.getElementById(id); });
+
+  function calc() {
+    if (!img.naturalWidth) return;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var scale = Math.min(vw / img.naturalWidth, vh / img.naturalHeight);
+    var rh = img.naturalHeight * scale;
+    var imgBottom = (vh - rh) / 2 + rh;
+    var space = vh - imgBottom;
+    /* espaço suficiente: centraliza no letterbox; senão usa 14px da borda */
+    var bottom = (space >= 56) ? Math.round(space / 2 - 21) : 14;
+    btns.forEach(function(b) { if (b) b.style.bottom = bottom + 'px'; });
   }
 
-  /* abertura do envelope */
-  const envelopeScreen = document.getElementById('screen-envelope');
-  const envelopeWrapper = document.getElementById('envelopeWrapper');
-  const inviteScreen   = document.getElementById('screen-invite');
-  let opened = false;
+  if (img.complete && img.naturalWidth) { calc(); }
+  else { img.addEventListener('load', calc); }
+  window.addEventListener('resize', calc);
+}
 
-  function openEnvelope() {
-    if (opened) return;
-    opened = true;
-    const r = envelopeWrapper.getBoundingClientRect();
-    spawnBurst(r.left + r.width * .50, r.top + r.height * .57);
-    envelopeWrapper.classList.add('opening');
-    setTimeout(() => {
-      envelopeScreen.classList.add('hidden');
-      inviteScreen.classList.remove('hidden');
-      requestAnimationFrame(() => inviteScreen.classList.add('show'));
-    }, 1150);
+/* ── posicionar zonas clicáveis sobre interagir.jpeg ── */
+function setupZones() {
+  var img = document.getElementById('interagirImg');
+  var defs = [
+    { id:'zone-local',        top:0.310, bot:0.565 },
+    { id:'zone-confirmar',    top:0.565, bot:0.755 },
+    { id:'zone-sugestao-link',top:0.755, bot:0.945 },
+  ];
+
+  function place() {
+    if (!img.naturalWidth) return;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var scale = Math.min(vw/img.naturalWidth, vh/img.naturalHeight);
+    var rw = img.naturalWidth*scale, rh = img.naturalHeight*scale;
+    var ox = (vw-rw)/2, oy = (vh-rh)/2;
+    defs.forEach(function(z) {
+      var el = document.getElementById(z.id);
+      el.style.left   = ox + 'px';
+      el.style.width  = rw + 'px';
+      el.style.top    = (oy + z.top * rh) + 'px';
+      el.style.height = ((z.bot - z.top) * rh) + 'px';
+    });
   }
 
-  document.getElementById('sealHit').addEventListener('click', openEnvelope);
-  envelopeWrapper.addEventListener('click', openEnvelope);
+  if (img.complete && img.naturalWidth) { place(); }
+  else { img.addEventListener('load', place); }
+  window.addEventListener('resize', place);
+}
 
+/* ════ INICIALIZAÇÃO ════ */
+
+/* posição dos botões – calculada uma vez e mantida por resize */
+setupBtnBottom('inviteImg',   'btn-invite-next');
+setupBtnBottom('sugestaoImg', 'btn-sugestao-back', 'btn-sugestao-next');
+setupBtnBottom('manualImg',   'btn-manual-back');
+setupZones();
+
+/* ── Envelope ── */
+var opened = false;
+function openEnvelope() {
+  if (opened) return;
+  opened = true;
+  var r = document.getElementById('envelopeWrapper').getBoundingClientRect();
+  spawnBurst(r.left + r.width * .5, r.top + r.height * .57);
+  document.getElementById('envelopeWrapper').classList.add('opening');
+  setTimeout(function() { goTo('screen-envelope', 'screen-invite'); }, 1150);
+}
+document.getElementById('sealHit').addEventListener('click', openEnvelope);
+document.getElementById('envelopeWrapper').addEventListener('click', openEnvelope);
+
+/* ── Convite → Interagir ── */
+document.getElementById('btn-invite-next').addEventListener('click', function() {
+  goTo('screen-invite', 'screen-interagir');
+});
+
+/* ── Zonas Interagir ── */
+var MAPS = 'https://www.google.com/maps/search/?api=1&query=R.+Jos%C3%A9+Francisco+dos+Santos%2C+192+-+Jardim+Helena%2C+Tabo%C3%A3o+da+Serra+-+SP';
+var WA   = 'https://wa.me/5511997294845?text=Ol%C3%A1%20Lanna%2C%20vim%20confirmar%20minha%20presen%C3%A7a!%20%F0%9F%8E%89';
+
+document.getElementById('zone-local').addEventListener('click', function() {
+  window.open(MAPS, '_blank', 'noopener');
+});
+document.getElementById('zone-confirmar').addEventListener('click', function() {
+  window.open(WA, '_blank', 'noopener');
+});
+document.getElementById('zone-sugestao-link').addEventListener('click', function() {
+  goTo('screen-interagir', 'screen-sugestao');
+});
+
+/* ── Sugestão ── */
+document.getElementById('btn-sugestao-back').addEventListener('click', function() {
+  goTo('screen-sugestao', 'screen-interagir');
+});
+document.getElementById('btn-sugestao-next').addEventListener('click', function() {
+  goTo('screen-sugestao', 'screen-manual');
+});
+
+/* ── Manual ── */
+document.getElementById('btn-manual-back').addEventListener('click', function() {
+  goTo('screen-manual', 'screen-sugestao');
+});
 </script>
 </body>
 </html>
